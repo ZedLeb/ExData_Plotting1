@@ -1,4 +1,4 @@
-## This code will generate a scatterplot of Global Active Power from the following raw data of Individual household electric power consumption (held on  http://archive.ics.uci.edu/ml/.)
+## This code will generate a plot of Global Active Power from the following raw data of Individual household electric power consumption (held on  http://archive.ics.uci.edu/ml/.)
 
 ## The raw data here was downloaded from https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip on 02/12/2014
 
@@ -32,11 +32,18 @@
 
 
 # Open PNG device; create a png file in the working directory
-  png(file = "Plot2.png")  
+  png(file = "Plot3.png")  
 
-# Plot scatterplot of frequency of Global_active_power over the time period 
-  plot(hpc$DateTime, hpc$Global_active_power, xlab= "", ylab= "Global Active Power (kilowatts)", type = "l")
+# Plots the three sub metering datasets of Global_active_power over the time period 
+  plot(hpc$DateTime, hpc$Sub_metering_1, xlab= "", ylab= "Energy sub metering", type = "n")
 
+   
+  lines(hpc$DateTime, hpc$Sub_metering_1)
+  lines(hpc$DateTime, hpc$Sub_metering_2, col = "red1")
+  lines(hpc$DateTime, hpc$Sub_metering_3, col = "blue1")
+
+  legend("topright", lty = 1, col = c("black", "red1", "blue1"), legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"))
+  
 
 # Remember to turn off the device
   dev.off()
