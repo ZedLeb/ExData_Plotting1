@@ -4,37 +4,37 @@
 
 
 # Location of raw data
-file <- "./exdata-data-household_power_consumption/household_power_consumption.txt"
+  file <- "./exdata-data-household_power_consumption/household_power_consumption.txt"
 
 # The file is very large and we are only interested in a subset.
 # We will extract only the specific rows for the date range 2007-02-01 and 2007-02-02
 
 # First, extract column names to pass to read.table
-col.names <- colnames(read.table(file, sep = ";", nrow = 1, header = TRUE))
+  col.names <- colnames(read.table(file, sep = ";", nrow = 1, header = TRUE))
 
 # Check row numbers for the date range in the txt file (using Notepad++) - the data are between rows 66637 and 69517.  This information gives the row to skip to and the number of rows to read in.
 
-69517-66637 # 2880
+# 69517-66637 # 2880
 
 # Read in specific rows (skip to first row of req date)
-hpc <- read.table(file, sep = ";", stringsAsFactor=FALSE, skip = 66637, na.strings = "?", col.names = col.names, nrows = 2880)
+  hpc <- read.table(file, sep = ";", stringsAsFactor=FALSE, skip = 66637, na.strings = "?", col.names = col.names, nrows = 2880)
 
 # Check classes of data
-summary(hpc)
+  summary(hpc)
 
 # Change .Date and .Time to date format - use lubridate
-library(lubridate)
+  library(lubridate)
 
-hpc$Date <- dmy(hpc$Date)
-hpc$Time <- hms(hpc$Time)
+  hpc$Date <- dmy(hpc$Date)
+  hpc$Time <- hms(hpc$Time)
 
 # Open PNG device; create a png file in the working directory
-png(file = "Plot1.png")  
+  png(file = "Plot1.png")  
 
 # Plot histogram of frequency of Global_active_power
-with(hpc, hist(Global_active_power, col = "red1", xlab = "Global Active Power(kilowatts)", main = "Global Active Power"))
+  with(hpc, hist(Global_active_power, col = "red1", xlab = "Global Active Power(kilowatts)", main = "Global Active Power"))
 
 # Remember to turn off the device
-dev.off()
+  dev.off()
 
 
