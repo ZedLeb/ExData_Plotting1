@@ -25,14 +25,18 @@ summary(hpc)
 # Change .Date and .Time to date format - use lubridate
 library(lubridate)
 
-hpc$Date <- dmy(hpc$Date)
-hpc$Time <- hms(hpc$Time)
+paste(hpc$Date, hpc$Time, sep = ' ')
+hpc$DateTime <- dmy_hms(hpc$DateTime)
+
 
 # Open PNG device; create a png file in the working directory
-png(file = "Plot1.png")  
+png(file = "Plot2.png")  
 
 # Plot histogram of frequency of Global_active_power
-with(hpc, hist(Global_active_power, col = "red1", xlab = "Global Active Power(kilowatts)", main = "Global Active Power"))
+plot(hpc$DateTime, hpc$Global_active_power, xlab= "", ylab= "Global Active Power (kilowatts)", pch = "")
+
+lines(hpc$DateTime, hpc$Global_active_power,)
+
 
 # Remember to turn off the device
 dev.off()
