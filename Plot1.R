@@ -1,31 +1,40 @@
+## This code will generate a histogram of frequency of Global Active Power from the following raw data of Individual household electric power consumption (held on  http://archive.ics.uci.edu/ml/.)
 
-# location of raw data
+## The raw data here was downloaded from https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip on 02/12/2014
+
+
+# Location of raw data
 file <- "./exdata-data-household_power_consumption/household_power_consumption.txt"
 
-# extract column names
+# The file is very large and we are only interested in a subset.
+# We will extract only the specific rows for the date range 2007-02-01 and 2007-02-02
+
+# First, extract column names to pass to read.table
 col.names <- colnames(read.table(file, sep = ";", nrow = 1, header = TRUE))
 
-# check row numbers in the txt file (using Notepad++) 
-# then calculate nrows
-69518-66637 # 2881
+# Check row numbers for the date range in the txt file (using Notepad++) - the data are between rows 69518 and 66637.  This information gives the row to skip to and the number of rows to read in.
 
-# read in specific rows (skip to first row of req date)
+# 69518-66637 # 2881
+
+# Read in specific rows (skip to first row of req date)
 hpc <- read.table(file, sep = ";", stringsAsFactor=FALSE, skip = 66637, na.strings = "?", col.names = col.names, nrows = 2881)
 
-# check classes of data
+# Check classes of data
 summary(hpc)
 
-# change .Date and .Time to date format - use lubridate
+# Change .Date and .Time to date format - use lubridate
 library(lubridate)
 
 hpc$Date <- dmy(hpc$Date)
 hpc$Time <- hms(hpc$Time)
 
-png(file = "GlobalActivePower.png")  ## Open PNG device; create a png file in the working directory
+# Open PNG device; create a png file in the working directory
+png(file = "Plot1.png")  
 
-#Plot histogram of frequency of Global_active_power
+# Plot histogram of frequency of Global_active_power
 with(hpc, hist(Global_active_power, col = "red1", xlab = "Global Active Power(kilowatts)", main = "Global Active Power"))
 
+# Remember to turn off the device
 dev.off()
 
 
